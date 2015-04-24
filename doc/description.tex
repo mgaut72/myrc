@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{changepage}
+\usepackage{hyperref}
+
+\textwidth=6.25in
+\textheight=9.5in
+\headheight=0in
+\headsep=.5in
+\hoffset  -1in
+\topmargin -.75in
+
+\nofiles
+
+\setlength{\parskip}{0.0cm}
+\setlength{\parindent}{0.0cm}   % Don't indent the paragraphs
+
+% \begin{adjustwidth}{2em}{0pt}
+% \end{adjustwidth}
+
+\begin{document}
+\begin{flushright}
+    Matt Gautreau\\
+    Zach Montoya\\
+    CS 422\\
+    Final Project Description
+\end{flushright}
+
+
+Teammates: Matt Gautreau and Zachary Montoya\\
+
+Overview: MYRC is to be a basic chat server, conforming to a subset of the IRC
+protocol outlined in \href{https://tools.ietf.org/html/rfc2812}{RFC 2812}.  The
+program will manage connected clients, and facilitate server-client and
+client-client interactions.\\
+
+Application Requirements: The project will be focused on users interacting
+with each other, so only a subset of the IRC protocol will be implemented.
+Section 3 of the protocol defines the purpose and structure of each type of
+message. This project will only be concerned with messages contained within
+sections 3.1, 3.2, 3.3, 3.6, and 3.7, (Connection Registration, Channel
+Operations, Sending messages, User based queries, and Miscellaneous
+messages).\\
+
+Distributed Requirements: For our project, we intend to begin with one server
+and at least two clients. The IRC protocol allows clients to send private
+messages and to send messages to channels. Thus, the server will be running
+multiple threads to handle the relaying of communication between clients and
+over channels. Additionally, users may perform user identification commands and
+they may send channel commands. Thus, the server must also keep track of
+various information to be able to respond to these commands.\\
+
+In short, the project will consist of three main parts:
+
+\begin{enumerate}
+    \item
+        A main thread, accepting client connections (likely through sockets)
+    \item
+        A multi-threaded system for managing client interactions, including
+        private messages and channels
+    \item
+        An IRC Message Parser, for communication with IRC clients.
+\end{enumerate}
+\end{document}
