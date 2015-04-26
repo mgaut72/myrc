@@ -22,8 +22,9 @@ public class ClientInteractionThread implements Runnable {
                     clientSocket.getOutputStream() );
 
             while (true) {
-                Object clientObject = fromClient.readObject();
-                System.out.println("Got a message");
+                Message clientMessage = (Message) fromClient.readObject();
+                String response = clientMessage.executeCommand(server);
+                toClient.writeObject(response);
             }
         }
         catch (IOException e) {
