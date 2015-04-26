@@ -10,7 +10,7 @@ public class MyRCServer implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
     private ServerSocket serverSocket;
-    private HashMap<String,ObjectOutputStream> clients;
+    private HashMap<String,ObjectOutputStream> clientOutputStreams;
     private HashMap<String,Channel> channels;
 
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class MyRCServer implements Runnable {
     public MyRCServer() {
         try {
             serverSocket = new ServerSocket(CONNECTION_PORT_NUMBER);
-            clients = new HashMap<String,ObjectOutputStream>();
+            clientOutputStreams = new HashMap<String,ObjectOutputStream>();
             channels = new HashMap<String,Channel>();
         }
         catch (IOException e) {
@@ -37,7 +37,7 @@ public class MyRCServer implements Runnable {
                 Socket newSocket = serverSocket.accept();
 
                 String clientID = UUID.randomUUID().toString();
-                clients.put(clientID, new ObjectOutputStream(
+                clientOutputStreams.put(clientID, new ObjectOutputStream(
                         newSocket.getOutputStream() ));
                 ClientInteractionThread newConnection = new
                         ClientInteractionThread(this, newSocket);
@@ -47,6 +47,19 @@ public class MyRCServer implements Runnable {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public ObjectOutputStream getClientOutputStreamByName(String name)
+            throws ClientNotFoundException {
+        ObjectOutputStream result = clientOutputStreams.get(name);
+
+        if (result == null) {
+            throw new ClientNotFoundException(
+                    "Client " + name + " does not exist");
+        }
+        else {
+            return result;
         }
     }
 
@@ -62,12 +75,12 @@ public class MyRCServer implements Runnable {
         }
     }
 
+    class ClientNotFoundException extends Exception {
+        public ClientNotFoundException(String message) { super(message); }
+    }
+
     class ChannelNotFoundException extends Exception {
-
-        public ChannelNotFoundException(String message) {
-            super(message);
-        }
-
+        public ChannelNotFoundException(String message) { super(message); }
     }
 
 }
