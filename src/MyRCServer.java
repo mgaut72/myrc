@@ -4,13 +4,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class MyRCServer implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
     private ServerSocket serverSocket;
-    private HashMap<String,ObjectOutputStream> clientOutputStreams;
+    private HashMap<String,UserInfo> userInfos;
     private HashMap<String,Channel> channels;
 
     public static void main(String[] args) {
@@ -22,7 +21,7 @@ public class MyRCServer implements Runnable {
     public MyRCServer() {
         try {
             serverSocket = new ServerSocket(CONNECTION_PORT_NUMBER);
-            clientOutputStreams = new HashMap<String,ObjectOutputStream>();
+            userInfos = new HashMap<String,UserInfo>();
             channels = new HashMap<String,Channel>();
         }
         catch (IOException e) {
@@ -36,11 +35,11 @@ public class MyRCServer implements Runnable {
             while (true) {
                 Socket newSocket = serverSocket.accept();
 
-                String clientID = UUID.randomUUID().toString();
-                clientOutputStreams.put(clientID, new ObjectOutputStream(
-                        newSocket.getOutputStream() ));
+                UserInfo newUser = new UserInfo(
+                        new ObjectOutputStream( newSocket.getOutputStream() ));
+                userInfos.put(newUser.id, newUser);
                 ClientInteractionThread newConnection = new
-                        ClientInteractionThread(this, newSocket);
+                        ClientInteractionThread(this, newSocket, newUser);
                 Thread t = new Thread(newConnection);
                 t.start();
             }
@@ -50,13 +49,13 @@ public class MyRCServer implements Runnable {
         }
     }
 
-    public ObjectOutputStream getClientOutputStreamByName(String name)
-            throws ClientNotFoundException {
-        ObjectOutputStream result = clientOutputStreams.get(name);
+    public UserInfo getUserByName(String name)
+            throws UserNotFoundException {
+        UserInfo result = userInfos.get(name);
 
         if (result == null) {
-            throw new ClientNotFoundException(
-                    "Client " + name + " does not exist");
+            throw new UserNotFoundException(
+                    "User " + name + " does not exist");
         }
         else {
             return result;
@@ -75,8 +74,8 @@ public class MyRCServer implements Runnable {
         }
     }
 
-    class ClientNotFoundException extends Exception {
-        public ClientNotFoundException(String message) { super(message); }
+    class UserNotFoundException extends Exception {
+        public UserNotFoundException(String message) { super(message); }
     }
 
     class ChannelNotFoundException extends Exception {

@@ -2,15 +2,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientInteractionThread implements Runnable {
 
     private MyRCServer server;
     private Socket clientSocket;
+    private UserInfo user;
 
-    public ClientInteractionThread(MyRCServer server, Socket clientSocket) {
+    public ClientInteractionThread(MyRCServer server, Socket clientSocket,
+            UserInfo user) {
         this.server = server;
         this.clientSocket = clientSocket;
+        this.user = user;
     }
 
     @Override
@@ -23,8 +27,11 @@ public class ClientInteractionThread implements Runnable {
 
             while (true) {
                 Message clientMessage = (Message) fromClient.readObject();
-                String response = clientMessage.executeCommand(server);
-                toClient.writeObject(response);
+                List<String> responses = clientMessage.executeCommand(server, user);
+
+                for (String response : responses) {
+                    toClient.writeObject(response);
+                }
             }
         }
         catch (IOException e) {

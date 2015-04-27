@@ -15,5 +15,5 @@ public abstract class Message {
         this.crlf = crlf;
     }
 
-    public abstract String executeCommand(MyRCServer server);
+    public abstract List<String> executeCommand(MyRCServer server, UserInfo user);
 }
