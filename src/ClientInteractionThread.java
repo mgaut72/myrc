@@ -26,8 +26,12 @@ public class ClientInteractionThread implements Runnable {
                     clientSocket.getOutputStream() );
 
             while (true) {
-                Message clientMessage = (Message) fromClient.readObject();
-                List<String> responses = clientMessage.executeCommand(server, user);
+                String clientInput = (String) fromClient.readObject();
+
+                // Parse input to determine message type
+                // For now...
+                Message message = new TestMessage(null,null,null,null);
+                List<String> responses = message.executeCommand(server, user);
 
                 for (String response : responses) {
                     toClient.writeObject(response);
