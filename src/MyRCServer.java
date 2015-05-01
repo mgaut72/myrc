@@ -9,7 +9,7 @@ public class MyRCServer implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
     private ServerSocket serverSocket;
-    private HashMap<String,UserInfo> userInfos;
+    private HashMap<String,UserInfo> usersMap;
     private HashMap<String,Channel> channels;
 
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class MyRCServer implements Runnable {
     public MyRCServer() {
         try {
             serverSocket = new ServerSocket(CONNECTION_PORT_NUMBER);
-            userInfos = new HashMap<String,UserInfo>();
+            usersMap = new HashMap<String,UserInfo>();
             channels = new HashMap<String,Channel>();
         }
         catch (IOException e) {
@@ -37,7 +37,7 @@ public class MyRCServer implements Runnable {
 
                 UserInfo newUser = new UserInfo(
                         new ObjectOutputStream( newSocket.getOutputStream() ));
-                userInfos.put(newUser.id, newUser);
+                usersMap.put(newUser.id, newUser);
                 ClientInteractionThread newConnection = new
                         ClientInteractionThread(this, newSocket, newUser);
                 Thread t = new Thread(newConnection);
@@ -51,7 +51,7 @@ public class MyRCServer implements Runnable {
 
     public UserInfo getUserByName(String name)
             throws UserNotFoundException {
-        UserInfo result = userInfos.get(name);
+        UserInfo result = usersMap.get(name);
 
         if (result == null) {
             throw new UserNotFoundException(
