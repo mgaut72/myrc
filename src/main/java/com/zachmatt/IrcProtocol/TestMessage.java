@@ -10,6 +10,10 @@ public class TestMessage extends Message {
         super(prefix, command, params, crlf);
     }
 
+    public TestMessage(String rawMessage) {
+        super(rawMessage);
+    }
+
     @Override
     public List<String> executeCommand(Server server, UserInfo user) {
         System.out.println("Woo test message works");
