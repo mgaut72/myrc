@@ -1,11 +1,12 @@
 package com.zachmatt.IrcProtocol;
 
 import java.util.List;
+
 import org.codehaus.jparsec.*;
 import org.codehaus.jparsec.functors.*;
 import org.codehaus.jparsec.pattern.*;
 
-public class Message {
+public abstract class Message {
 
     private String prefix;
     private String command;
@@ -108,4 +109,6 @@ public class Message {
     public List<String> getParameters(){
         return parameters;
     }
+
+    public abstract List<String> executeCommand(Server server, UserInfo user);
 }
