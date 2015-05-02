@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class TestMessage extends Message {
     }
 
     @Override
-    public List<String> executeCommand(MyRCServer server, UserInfo user) {
+    public List<String> executeCommand(Server server, UserInfo user) {
         System.out.println("Woo test message works");
         List<String> responses = new ArrayList<String>();
         responses.add("Client should print this out");

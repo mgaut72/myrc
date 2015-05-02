@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -5,7 +7,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-public class MyRCClient implements Runnable {
+public class Client implements Runnable {
 
     public static final String HOST_NAME = "localhost";
 
@@ -15,7 +17,7 @@ public class MyRCClient implements Runnable {
 
     public static void main(String[] args) {
         try {
-            MyRCClient client = new MyRCClient();
+            Client client = new Client();
             Thread t = new Thread(client);
             t.start();
 
@@ -27,12 +29,12 @@ public class MyRCClient implements Runnable {
         }
     }
 
-    public MyRCClient() throws IOException {
+    public Client() throws IOException {
         connectToServer();
     }
 
     public void connectToServer() throws IOException {
-        socket = new Socket(HOST_NAME, MyRCServer.CONNECTION_PORT_NUMBER);
+        socket = new Socket(HOST_NAME, Server.CONNECTION_PORT_NUMBER);
         outStream = new ObjectOutputStream(socket.getOutputStream());
         inStream = new ObjectInputStream(socket.getInputStream());
     }

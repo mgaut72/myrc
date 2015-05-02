@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.util.List;
 
 public abstract class Message {
@@ -15,5 +17,5 @@ public abstract class Message {
         this.crlf = crlf;
     }
 
-    public abstract List<String> executeCommand(MyRCServer server, UserInfo user);
+    public abstract List<String> executeCommand(Server server, UserInfo user);
 }

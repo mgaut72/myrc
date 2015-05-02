@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -6,11 +8,11 @@ import java.util.List;
 
 public class ClientInteractionThread implements Runnable {
 
-    private MyRCServer server;
+    private Server server;
     private Socket clientSocket;
     private UserInfo user;
 
-    public ClientInteractionThread(MyRCServer server, Socket clientSocket,
+    public ClientInteractionThread(Server server, Socket clientSocket,
             UserInfo user) {
         this.server = server;
         this.clientSocket = clientSocket;

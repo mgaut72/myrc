@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;

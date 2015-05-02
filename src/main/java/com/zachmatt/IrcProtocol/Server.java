@@ -1,3 +1,5 @@
+package com.zachmatt.IrcProtocol;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -5,7 +7,7 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.HashMap;
 
-public class MyRCServer implements Runnable {
+public class Server implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
     private ServerSocket serverSocket;
@@ -13,12 +15,12 @@ public class MyRCServer implements Runnable {
     private HashMap<String,Channel> channels;
 
     public static void main(String[] args) {
-        MyRCServer server = new MyRCServer();
+        Server server = new Server();
         Thread t = new Thread(server);
         t.start();
     }
 
-    public MyRCServer() {
+    public Server() {
         try {
             serverSocket = new ServerSocket(CONNECTION_PORT_NUMBER);
             usersMap = new HashMap<String,UserInfo>();
