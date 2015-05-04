@@ -1,6 +1,7 @@
 package com.zachmatt.irc.messages;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.codehaus.jparsec.*;
 import org.codehaus.jparsec.functors.*;
@@ -17,12 +18,12 @@ public abstract class Message {
 
     public Message(String prefix, String cmd, List<String> prms, String trail){
         this.prefix = prefix;
-        this.command = command;
+        this.command = cmd;
         this.parameters = prms;
         this.trailing = trail;
     }
 
-    public Message(String rawMessage){
+    public static Message generateMessage(String rawMessage){
 
         /*
          * A mapper class that concatenates a list of strings
@@ -90,10 +91,21 @@ public abstract class Message {
         Tuple3<String,String,Pair<List<String>,String>> parts
             = message.parse(rawMessage);
 
-        this.prefix = parts.a;
-        this.command = parts.b;
-        this.parameters = parts.c.a;
-        this.trailing = parts.c.b;
+        String          prfx    = parts.a;
+        String          cmd     = parts.b;
+        List<String>    prms    = parts.c.a;
+        String          trail   = parts.c.b;
+
+        Message msg;
+        switch(cmd){
+            case "NICK":
+                msg = new NickMessage(prfx, cmd, prms, trail);
+                break;
+            default:
+                msg = new TestMessage(prfx, cmd, prms, trail);
+        }
+
+        return msg;
     }
 
     public String getPrefix(){
@@ -116,13 +128,19 @@ public abstract class Message {
     // Since this an instance method, we still have access to this message's
     // information such as prefix, command, etc.
     public List<String> generateResponse(ResponseCode rc, UserInfo user) {
-        if (rc == ResponseCode.ERR_ALREADYREGISTERED) {
-            return null;
+        ArrayList<String> responses = new ArrayList<String>();
+        switch(rc){
+            case ERR_ALREADYREGISTERED:
+            case ERR_NEEDMOREPARAMS:
+            case ERR_NONICKNAMEGIVEN:
+                    responses.add(":No nickname given");
+            case ERR_NICKNAMEINUSE: // TODO get <nick>
+                    responses.add("<nick> :Nickname is already in use");
+            case ERR_NOTREGISTERED:
+                    responses.add(":You have not registered");
+            default: break;
         }
-        else if (rc == ResponseCode.ERR_NEEDMOREPARAMS) {
-            return null;
-        }
-        return null;
+        return responses;
     }
 
     public abstract List<String> executeCommand(Server server, UserInfo user);

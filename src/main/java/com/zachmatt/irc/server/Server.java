@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.HashMap;
 
+import com.zachmatt.irc.exceptions.*;
+
 public class Server implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
@@ -39,7 +41,7 @@ public class Server implements Runnable {
 
                 UserInfo newUser = new UserInfo(
                         new ObjectOutputStream( newSocket.getOutputStream() ));
-                usersMap.put(newUser.id, newUser);
+                usersMap.put(newUser.nickname, newUser);
                 ClientInteractionThread newConnection = new
                         ClientInteractionThread(this, newSocket, newUser);
                 Thread t = new Thread(newConnection);
@@ -51,13 +53,13 @@ public class Server implements Runnable {
         }
     }
 
-    public UserInfo getUserByName(String name)
+    public UserInfo getUserByNickname(String nick)
             throws UserNotFoundException {
-        UserInfo result = usersMap.get(name);
+        UserInfo result = usersMap.get(nick);
 
         if (result == null) {
             throw new UserNotFoundException(
-                    "User " + name + " does not exist");
+                    "User " + nick + " does not exist");
         }
         else {
             return result;
@@ -75,13 +77,4 @@ public class Server implements Runnable {
             return result;
         }
     }
-
-    class UserNotFoundException extends Exception {
-        public UserNotFoundException(String message) { super(message); }
-    }
-
-    class ChannelNotFoundException extends Exception {
-        public ChannelNotFoundException(String message) { super(message); }
-    }
-
 }
