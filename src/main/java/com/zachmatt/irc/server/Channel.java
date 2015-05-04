@@ -7,19 +7,19 @@ import java.util.HashSet;
 public class Channel {
 
     private String name;
-    private HashSet<String> userIds;
+    private HashSet<UserInfo> users;
 
     public Channel(String name) {
         this.name = name;
-        this.userIds = new HashSet<String>();
+        this.users = new HashSet<UserInfo>();
     }
 
-    public void addUserId(String userId) {
-        userIds.add(userId);
+    public void addUser(UserInfo user) {
+        users.add(user);
     }
 
-    public List<String> getUserIds() {
-        return new ArrayList<String>(userIds);
+    public HashSet<UserInfo> getUsers() {
+        return users;
     }
 
 }
