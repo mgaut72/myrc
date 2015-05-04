@@ -1,4 +1,4 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.messages;
 
 public enum ResponseCode {
     // Replies
