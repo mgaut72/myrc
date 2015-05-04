@@ -91,18 +91,10 @@ public abstract class Message {
         Tuple3<String,String,Pair<List<String>,String>> parts
             = message.parse(rawMessage);
 
-        //this.prefix = parts.a;
-        //this.command = parts.b;
-        //this.parameters = parts.c.a;
-        //this.trailing = parts.c.b;
         String          prfx    = parts.a;
         String          cmd     = parts.b;
         List<String>    prms    = parts.c.a;
         String          trail   = parts.c.b;
-        System.out.println(prfx);
-        System.out.println(cmd);
-        System.out.println(prms);
-        System.out.println(trail);
 
         Message msg;
         switch(cmd){
