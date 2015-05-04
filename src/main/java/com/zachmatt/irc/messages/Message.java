@@ -10,10 +10,10 @@ import com.zachmatt.irc.server.*;
 
 public abstract class Message {
 
-    private String prefix;
-    private String command;
-    private List<String> parameters;
-    private String trailing;
+    protected String prefix;
+    protected String command;
+    protected List<String> parameters;
+    protected String trailing;
 
     public Message(String prefix, String cmd, List<String> prms, String trail){
         this.prefix = prefix;
@@ -110,6 +110,19 @@ public abstract class Message {
 
     public List<String> getParameters(){
         return parameters;
+    }
+
+    // Create responses based on the code and the user info
+    // Since this an instance method, we still have access to this message's
+    // information such as prefix, command, etc.
+    public List<String> generateResponse(ResponseCode rc, UserInfo user) {
+        if (rc == ResponseCode.ERR_ALREADYREGISTERED) {
+            return null;
+        }
+        else if (rc == ResponseCode.ERR_NEEDMOREPARAMS) {
+            return null;
+        }
+        return null;
     }
 
     public abstract List<String> executeCommand(Server server, UserInfo user);

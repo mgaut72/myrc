@@ -9,6 +9,7 @@ public class UserInfo {
     boolean isAway;
     boolean isInvisible;
     boolean isOperator;
+    RegistrationState registrationState;
 
     String username;
     String realName;
@@ -23,5 +24,18 @@ public class UserInfo {
         this.isAway = false;
         this.isInvisible = false;
         this.isOperator = false;
+        this.registrationState = RegistrationState.NONE_SENT;
+    }
+
+    enum RegistrationState {
+        NONE_SENT(0),
+        PASS_SENT(1),
+        NICK_SENT(2),
+        REGISTERED(3);
+
+        int value;
+        RegistrationState(int value) {
+            this.value = value;
+        }
     }
 }
