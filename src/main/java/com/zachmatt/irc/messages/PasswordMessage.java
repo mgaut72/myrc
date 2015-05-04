@@ -3,15 +3,13 @@ package com.zachmatt.irc.messages;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zachmatt.irc.server.*;
+
 public class PasswordMessage extends Message {
 
     public PasswordMessage(String prefix, String command, List<String> params,
             String crlf) {
         super(prefix, command, params, crlf);
-    }
-
-    public PasswordMessage(String rawMessage) {
-        super(rawMessage);
     }
 
     @Override

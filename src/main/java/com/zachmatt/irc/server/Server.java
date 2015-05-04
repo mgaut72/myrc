@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.HashMap;
 
+import com.zachmatt.irc.exceptions.*;
+
 public class Server implements Runnable {
 
     public static final int CONNECTION_PORT_NUMBER = 8000;
@@ -75,13 +77,4 @@ public class Server implements Runnable {
             return result;
         }
     }
-
-    class UserNotFoundException extends Exception {
-        public UserNotFoundException(String message) { super(message); }
-    }
-
-    class ChannelNotFoundException extends Exception {
-        public ChannelNotFoundException(String message) { super(message); }
-    }
-
 }

@@ -1,8 +1,10 @@
 package com.zachmatt.irc.messages;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.zachmatt.irc.server.*;
+import com.zachmatt.irc.exceptions.UserNotFoundException;
 
 public class NickMessage extends Message {
 
@@ -14,11 +16,12 @@ public class NickMessage extends Message {
 
 
     public List<String> executeCommand(Server server, UserInfo u) {
-        String oldNick = u.nickname;
+        final String oldNick = u.nickname;
 
         // make sure we were given a nickname
+        final String newNick;;
         try{
-            String newNick = this.params.get(0);
+            newNick = this.parameters.get(0);
         }
         catch(IndexOutOfBoundsException e){
             return super.generateResponse(ResponseCode.ERR_NONICKNAMEGIVEN, u);

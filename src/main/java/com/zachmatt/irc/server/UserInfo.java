@@ -3,16 +3,16 @@ package com.zachmatt.irc.server;
 import java.io.ObjectOutputStream;
 
 public class UserInfo {
-    long lastTimestampSeconds;
-    boolean isAway;
-    boolean isInvisible;
-    boolean isOperator;
-    RegistrationState registrationState;
+    public long lastTimestampSeconds;
+    public boolean isAway;
+    public boolean isInvisible;
+    public boolean isOperator;
+    public RegistrationState registrationState;
 
-    String nickname;
-    String realName;
+    public String nickname;
+    public String realName;
 
-    ObjectOutputStream outStream;
+    public ObjectOutputStream outStream;
 
     public UserInfo(ObjectOutputStream outStream) {
         this.outStream = outStream;
@@ -24,7 +24,7 @@ public class UserInfo {
         this.registrationState = RegistrationState.NONE_SENT;
     }
 
-    enum RegistrationState {
+    public enum RegistrationState {
         NONE_SENT(0),
         PASS_SENT(1),
         NICK_SENT(2),

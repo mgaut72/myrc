@@ -1,6 +1,7 @@
 package com.zachmatt.irc.messages;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.codehaus.jparsec.*;
 import org.codehaus.jparsec.functors.*;
@@ -22,7 +23,7 @@ public abstract class Message {
         this.trailing = trail;
     }
 
-    public Message(String rawMessage){
+    public static Message generateMessage(String rawMessage){
 
         /*
          * A mapper class that concatenates a list of strings
@@ -90,10 +91,25 @@ public abstract class Message {
         Tuple3<String,String,Pair<List<String>,String>> parts
             = message.parse(rawMessage);
 
-        this.prefix = parts.a;
-        this.command = parts.b;
-        this.parameters = parts.c.a;
-        this.trailing = parts.c.b;
+        //this.prefix = parts.a;
+        //this.command = parts.b;
+        //this.parameters = parts.c.a;
+        //this.trailing = parts.c.b;
+        String          prfx    = parts.a;
+        String          cmd     = parts.b;
+        List<String>    prms    = parts.c.a;
+        String          trail   = parts.c.b;
+
+        Message msg = null;
+        switch(cmd){
+            case "NICK":
+                msg = new NickMessage(prfx, cmd, prms, trail);
+                break;
+            default:
+                msg = new TestMessage(prfx, cmd, prms, trail);
+        }
+
+        return msg;
     }
 
     public String getPrefix(){
@@ -118,14 +134,13 @@ public abstract class Message {
     public List<String> generateResponse(ResponseCode rc, UserInfo user) {
         ArrayList<String> responses = new ArrayList<String>();
         switch(rc){
-            case ResponseCode.ERR_ALREADYREGISTERED:
-            case ResponseCode.ERR_NEEDMOREPARAM:
-            case ResponseCode.ERR_REST:
-            case ResponseCode.ERR_NONICKNAMEGIVEN:
+            case ERR_ALREADYREGISTERED:
+            case ERR_NEEDMOREPARAMS:
+            case ERR_NONICKNAMEGIVEN:
                     responses.add(":No nickname given");
-            case ResponseCode.ERR_NICKNAMEINUSE: // TODO get <nick>
+            case ERR_NICKNAMEINUSE: // TODO get <nick>
                     responses.add("<nick> :Nickname is already in use");
-            case ResponseCode.ERR_NOTREGISTERED:
+            case ERR_NOTREGISTERED:
                     responses.add(":You have not registered");
             default: break;
         }
