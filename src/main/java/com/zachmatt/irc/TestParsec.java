@@ -13,7 +13,7 @@ public class TestParsec {
             "params params params params params :trailing";
 
         raw = ":<prefix> command <param1> <param2> <param3> :<trailing>"; 
-        Message msg = new TestMessage(raw);
+        Message msg = Message.generateMessage(raw);
 
         System.out.println("prefix: " + msg.getPrefix());
         System.out.println("command: " + msg.getCommand());

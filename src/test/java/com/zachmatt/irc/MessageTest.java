@@ -36,7 +36,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = ":<prefix> command params :<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
         assertEquals(1, msg.getParameters().size());
@@ -49,7 +49,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = "command params :<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("", msg.getPrefix());
         assertEquals("command", msg.getCommand());
         assertEquals(1, msg.getParameters().size());
@@ -62,7 +62,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = ":<prefix> command :<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
         assertEquals(0, msg.getParameters().size());
@@ -74,7 +74,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = "command :<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("", msg.getPrefix());
         assertEquals("command", msg.getCommand());
         assertEquals(0, msg.getParameters().size());
@@ -86,7 +86,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = "command";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("", msg.getPrefix());
         assertEquals("command", msg.getCommand());
         assertEquals(0, msg.getParameters().size());
@@ -98,7 +98,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = "000";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
         assertEquals("", msg.getPrefix());
         assertEquals("000", msg.getCommand());
         assertEquals(0, msg.getParameters().size());
@@ -110,7 +110,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = ":<prefix> command param1 param2 param3 :<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
 
         System.out.println(msg);
         assertEquals("<prefix>", msg.getPrefix());
@@ -128,7 +128,7 @@ public class MessageTest extends TestCase {
         Message msg;
 
         raw = ":<prefix> command param1 param2 param3";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
 
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
@@ -147,7 +147,7 @@ public class MessageTest extends TestCase {
             + "param1 param2 param3 param4 param5 param6 "
             + "param7 param8 param9 param10 param11 param12 param13 param14 "
             + ":<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
 
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
@@ -177,7 +177,7 @@ public class MessageTest extends TestCase {
             + "param1 param2 param3 param4 param5 param6 "
             + "param7 param8 param9 param10 param11 param12 param13 param14 "
             + "<trailing>";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
 
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
@@ -207,7 +207,7 @@ public class MessageTest extends TestCase {
             + "param1 param2 param3 param4 param5 param6 "
             + "param7 param8 param9 param10 param11 param12 param13 "
             + "param14";
-        msg = new TestMessage(raw);
+        msg = Message.generateMessage(raw);
 
         assertEquals("<prefix>", msg.getPrefix());
         assertEquals("command", msg.getCommand());
