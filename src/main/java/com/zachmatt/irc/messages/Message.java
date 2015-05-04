@@ -101,6 +101,9 @@ public abstract class Message {
             case "NICK":
                 msg = new NickMessage(prfx, cmd, prms, trail);
                 break;
+            case "USER":
+                msg = new UserMessage(prfx, cmd, prms, trail);
+                break;
             default:
                 msg = new TestMessage(prfx, cmd, prms, trail);
         }
