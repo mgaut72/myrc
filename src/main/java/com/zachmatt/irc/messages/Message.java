@@ -1,10 +1,12 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.messages;
 
 import java.util.List;
 
 import org.codehaus.jparsec.*;
 import org.codehaus.jparsec.functors.*;
 import org.codehaus.jparsec.pattern.*;
+
+import com.zachmatt.irc.server.*;
 
 public abstract class Message {
 

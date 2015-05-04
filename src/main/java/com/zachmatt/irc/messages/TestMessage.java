@@ -1,7 +1,10 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.messages;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.zachmatt.irc.server.*;
+
 
 public class TestMessage extends Message {
 

@@ -1,10 +1,12 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+
+import com.zachmatt.irc.messages.*;
 
 public class ClientInteractionThread implements Runnable {
 

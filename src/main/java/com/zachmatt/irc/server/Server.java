@@ -1,4 +1,4 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.server;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

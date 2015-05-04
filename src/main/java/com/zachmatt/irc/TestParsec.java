@@ -1,8 +1,8 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc;
 
 import java.util.List;
 
-import com.zachmatt.IrcProtocol.Message;
+import com.zachmatt.irc.messages.*;
 
 public class TestParsec {
 

@@ -1,4 +1,4 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc;
 
 import java.util.*;
 
@@ -6,7 +6,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import com.zachmatt.IrcProtocol.Message;
+import com.zachmatt.irc.messages.*;
 
 /**
  * Unit test for IRC Message Parser

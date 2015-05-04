@@ -1,4 +1,4 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
+
+import com.zachmatt.irc.server.*;
 
 public class Client implements Runnable {
 

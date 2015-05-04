@@ -1,4 +1,4 @@
-package com.zachmatt.IrcProtocol;
+package com.zachmatt.irc.server;
 
 import java.io.ObjectOutputStream;
 import java.util.UUID;
