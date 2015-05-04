@@ -39,7 +39,7 @@ public class Server implements Runnable {
 
                 UserInfo newUser = new UserInfo(
                         new ObjectOutputStream( newSocket.getOutputStream() ));
-                usersMap.put(newUser.id, newUser);
+                usersMap.put(newUser.nickname, newUser);
                 ClientInteractionThread newConnection = new
                         ClientInteractionThread(this, newSocket, newUser);
                 Thread t = new Thread(newConnection);
@@ -51,13 +51,13 @@ public class Server implements Runnable {
         }
     }
 
-    public UserInfo getUserByName(String name)
+    public UserInfo getUserByNickname(String nick)
             throws UserNotFoundException {
-        UserInfo result = usersMap.get(name);
+        UserInfo result = usersMap.get(nick);
 
         if (result == null) {
             throw new UserNotFoundException(
-                    "User " + name + " does not exist");
+                    "User " + nick + " does not exist");
         }
         else {
             return result;
