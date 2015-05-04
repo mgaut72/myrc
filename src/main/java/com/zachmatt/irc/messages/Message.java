@@ -116,13 +116,20 @@ public abstract class Message {
     // Since this an instance method, we still have access to this message's
     // information such as prefix, command, etc.
     public List<String> generateResponse(ResponseCode rc, UserInfo user) {
-        if (rc == ResponseCode.ERR_ALREADYREGISTERED) {
-            return null;
+        ArrayList<String> responses = new ArrayList<String>();
+        switch(rc){
+            case ResponseCode.ERR_ALREADYREGISTERED:
+            case ResponseCode.ERR_NEEDMOREPARAM:
+            case ResponseCode.ERR_REST:
+            case ResponseCode.ERR_NONICKNAMEGIVEN:
+                    responses.add(":No nickname given");
+            case ResponseCode.ERR_NICKNAMEINUSE: // TODO get <nick>
+                    responses.add("<nick> :Nickname is already in use");
+            case ResponseCode.ERR_NOTREGISTERED:
+                    responses.add(":You have not registered");
+            default: break;
         }
-        else if (rc == ResponseCode.ERR_NEEDMOREPARAMS) {
-            return null;
-        }
-        return null;
+        return responses;
     }
 
     public abstract List<String> executeCommand(Server server, UserInfo user);
