@@ -24,6 +24,10 @@ public class UserInfo {
         this.registrationState = RegistrationState.NONE_SENT;
     }
 
+    public boolean isRegistered() {
+        return this.registrationState == RegistrationState.REGISTERED;
+    }
+
     public enum RegistrationState {
         NONE_SENT(0),
         PASS_SENT(1),

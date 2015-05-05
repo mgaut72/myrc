@@ -98,6 +98,9 @@ public abstract class Message {
 
         Message msg;
         switch(cmd){
+            case "PASS":
+                msg = new PasswordMessage(prfx, cmd, prms, trail);
+                break;
             case "NICK":
                 msg = new NickMessage(prfx, cmd, prms, trail);
                 break;

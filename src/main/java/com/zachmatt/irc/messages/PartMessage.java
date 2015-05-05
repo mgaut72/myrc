@@ -15,6 +15,10 @@ public class PartMessage extends Message {
     }
 
     public List<String> executeCommand(Server server, UserInfo user) {
+        if (!user.isRegistered()) {
+            return super.generateResponse(ResponseCode.ERR_NOTREGISTERED, user);
+        }
+
         List<String> responses;
 
         if (parameters.size() == 0) {

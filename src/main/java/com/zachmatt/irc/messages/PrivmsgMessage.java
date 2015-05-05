@@ -17,6 +17,9 @@ public class PrivmsgMessage extends Message {
 
 
     public List<String> executeCommand(Server server, final UserInfo u) {
+        if (!u.isRegistered()) {
+            return super.generateResponse(ResponseCode.ERR_NOTREGISTERED, u);
+        }
 
         List<String> responses = new ArrayList<String>();
 

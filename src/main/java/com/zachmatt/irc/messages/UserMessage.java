@@ -44,8 +44,12 @@ public class UserMessage extends Message {
             return super.generateResponse(ResponseCode.ERR_NOTREGISTERED, u);
         }
         // if they have never set a nickname, update their registration state
-        else if(u.registrationState == UserInfo.RegistrationState.PASS_SENT){
-            u.registrationState = UserInfo.RegistrationState.NICK_SENT;
+        else if(u.registrationState == UserInfo.RegistrationState.PASS_SENT
+                || u.registrationState == UserInfo.RegistrationState.NICK_SENT){
+            u.registrationState = UserInfo.RegistrationState.REGISTERED;
+        }
+        else {
+            return super.generateResponse(ResponseCode.ERR_ALREADYREGISTERED, u);
         }
 
         // finally, set the new nickname and realname
