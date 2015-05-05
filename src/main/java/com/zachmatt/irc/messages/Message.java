@@ -110,6 +110,9 @@ public abstract class Message {
             case "PART":
                 msg = new PartMessage(prfx, cmd, prms, trail);
                 break;
+            case "PRIVMSG":
+                msg = new PrivmsgMessage(prfx, cmd, prms, trail);
+                break;
             default:
                 msg = new TestMessage(prfx, cmd, prms, trail);
         }
