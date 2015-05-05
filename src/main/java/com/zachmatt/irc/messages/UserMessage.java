@@ -55,6 +55,16 @@ public class UserMessage extends Message {
         // finally, set the new nickname and realname
         u.nickname = newNick;
         u.realname = newRealName;
+
+        // first time this user is setting a nickname, add them to map
+        if(oldNick == null){
+            server.addToUserMap(u);
+        }
+        // update the users key in the map
+        else{
+            server.updateUserNick(oldNick, newNick);
+        }
+
         return new ArrayList<String>() {{
             add(":" + oldNick + " NICK " + newNick);
             add(":" + u.nickname + " realname = " + u.realname);

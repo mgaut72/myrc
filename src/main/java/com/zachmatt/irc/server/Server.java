@@ -46,7 +46,6 @@ public class Server implements Runnable {
 
                 UserInfo newUser = new UserInfo(
                         new ObjectOutputStream( newSocket.getOutputStream() ));
-                usersMap.put(newUser.nickname, newUser);
                 ClientInteractionThread newConnection = new
                         ClientInteractionThread(this, newSocket, newUser);
                 Thread t = new Thread(newConnection);
@@ -82,6 +81,15 @@ public class Server implements Runnable {
             return result;
         }
     }
+
+    public void addToUserMap(UserInfo u){
+        usersMap.put(u.nickname, u);
+    }
+
+    public void updateUserNick(String oldNick, String newNick){
+        usersMap.put(newNick, usersMap.remove(oldNick));
+    }
+
 
     public List<Channel> getChannelsWithUser(UserInfo user) {
         List<Channel> userChannels = new ArrayList<Channel>();

@@ -20,7 +20,7 @@ public class NickMessage extends Message {
         List<String> errorParams = new ArrayList<String>();
 
         // make sure we were given a nickname
-        final String newNick;;
+        final String newNick;
         try{
             newNick = this.parameters.get(0);
         }
@@ -49,8 +49,18 @@ public class NickMessage extends Message {
             u.registrationState = UserInfo.RegistrationState.NICK_SENT;
         }
 
-        // finally, set the new nickname
         u.nickname = newNick;
+
+        // first time this user is setting a nickname, add them to map
+        if(oldNick == null){
+            server.addToUserMap(u);
+        }
+        // update the users key in the map
+        else{
+            server.updateUserNick(oldNick, newNick);
+        }
+
+        // finally, set the new nickname
         return new ArrayList<String>() {{
             add(":" + oldNick + " NICK " + newNick);
         }};
