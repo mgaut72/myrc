@@ -153,8 +153,9 @@ public abstract class Message {
             case ERR_NONICKNAMEGIVEN:
                     responses.add(":No nickname given");
                     break;
-            case ERR_NICKNAMEINUSE: // TODO get <nick>
-                    responses.add("<nick> :Nickname is already in use");
+            case ERR_NICKNAMEINUSE:
+                    responses.add(other.get(0)
+                            + " :Nickname is already in use");
                     break;
             case ERR_NOTREGISTERED:
                     responses.add(":You have not registered");
