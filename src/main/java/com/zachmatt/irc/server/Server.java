@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.zachmatt.irc.exceptions.*;
 
@@ -27,6 +29,9 @@ public class Server implements Runnable {
             serverSocket = new ServerSocket(CONNECTION_PORT_NUMBER);
             usersMap = new HashMap<String,UserInfo>();
             channels = new HashMap<String,Channel>();
+            channels.put("#Sports", new Channel("#Sports"));
+            channels.put("#Politics", new Channel("#Politics"));
+            channels.put("#HackerNews", new Channel("#HackerNews"));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -77,4 +82,17 @@ public class Server implements Runnable {
             return result;
         }
     }
+
+    public List<Channel> getChannelsWithUser(UserInfo user) {
+        List<Channel> userChannels = new ArrayList<Channel>();
+
+        for (Channel channel : channels.values()) {
+            if (channel.hasUser(user)) {
+                userChannels.add(channel);
+            }
+        }
+
+        return userChannels;
+    }
+
 }
