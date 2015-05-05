@@ -16,6 +16,7 @@ public class UserMessage extends Message {
 
 
     public List<String> executeCommand(Server server, final UserInfo u) {
+        List<String> errorParams = new ArrayList<String>();
 
         // expect params to be [username, hostname, servername]
         // and trailing to be realname
@@ -30,7 +31,9 @@ public class UserMessage extends Message {
         // make sure the new nickname doesn't already exist
         try{
             UserInfo existing = server.getUserByNickname(newNick);
-            return super.generateResponse(ResponseCode.ERR_NICKNAMEINUSE, u);
+            errorParams.add(newNick);
+            return super.generateResponse(
+                    ResponseCode.ERR_NICKNAMEINUSE, u, errorParams);
         }
         catch(UserNotFoundException e){
             // expected to not find the user, so ok
