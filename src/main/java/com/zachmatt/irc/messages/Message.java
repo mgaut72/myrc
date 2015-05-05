@@ -104,6 +104,9 @@ public abstract class Message {
             case "USER":
                 msg = new UserMessage(prfx, cmd, prms, trail);
                 break;
+            case "TOPIC":
+                msg = new TopicMessage(prfx, cmd, prms, trail);
+                break;
             case "JOIN":
                 msg = new JoinMessage(prfx, cmd, prms, trail);
                 break;
