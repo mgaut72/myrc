@@ -15,7 +15,7 @@ public class UserMessage extends Message {
     }
 
 
-    public List<String> executeCommand(Server server, UserInfo u) {
+    public List<String> executeCommand(Server server, final UserInfo u) {
 
         // expect params to be [username, hostname, servername]
         // and trailing to be realname

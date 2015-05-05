@@ -10,7 +10,7 @@ public class UserInfo {
     public RegistrationState registrationState;
 
     public String nickname;
-    public String realName;
+    public String realname;
 
     public ObjectOutputStream outStream;
 
