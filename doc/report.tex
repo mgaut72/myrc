@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{changepage}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\textwidth=6.25in
+\textheight=9.5in
+\headheight=0in
+\headsep=.5in
+\hoffset  -1in
+\topmargin -.75in
+
+\nofiles
+
+%\setlength{\parskip}{0.0cm}
+%\setlength{\parindent}{0.0cm}   % Don't indent the paragraphs
+
+% \begin{adjustwidth}{2em}{0pt}
+% \end{adjustwidth}
+
+\begin{document}
+\begin{flushright}
+    Matt Gautreau\\
+    Zach Montoya\\
+    CS 422\\
+    Final Project Report
+\end{flushright}
+
+\section{Overview}
+
+MYRC is a java-based distributed chat application which sought to implement
+a subset of the IRC protocol as faithfully as possible, with the exception that
+communication between the server and clients is done via sockets, rather
+than over TCP, as the protocol requires.
+
+The implementation includes both server and client programs, and facilitates
+client-server, and client-client(s) communication through the server.
+
+\section{System Architecture}
+
+The general structure of the system is as follows:
+
+\begin{center}
+\includegraphics[width=\linewidth]{architecture.png}
+\end{center}
+
+\subsection{Server Architecture}
+
+The IRC protocol specifies that servers manage a set of chatrooms, called channels,
+which have the following fundamental properties:
+\begin{enumerate}
+    \item
+        Name - usually indicative of the topic of the channel
+    \item
+        Topic - a brief explanation of the channel's purpose
+    \item
+        Users - a set of users currently in the channel
+\end{enumerate}
+
+Users must be able to send messages both to other users and to an entire channel.
+For this purpose, the server maintains a collection of all channels it is currently
+managing, as well as the collection of all users that are connected to the server.
+
+The main server thread, labeled ``New Connection Thread'' in the architecture diagram,
+simply exists to constantly wait for a connection to the \texttt{ServerSocket}.  When
+a new client connects, we create a socket assigned to that particular client, a \texttt{UserInfo}
+object associated with the connecting user, and then start a \texttt{ClientInteractionThread}
+to handle server-client communication with the new client.
+\\
+
+The \texttt{ClientInteractionThread} will constantly wait to receive a message from
+the client, parse that message, and perform the action associated with the message.
+Any responses that are generated while executing the message will be sent back to
+the client.
+
+
+\end{document}
