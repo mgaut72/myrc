@@ -133,10 +133,15 @@ public abstract class Message {
         return parameters;
     }
 
+    public List<String> generateResponse(ResponseCode rc, UserInfo user){
+        return generateResponse(rc, user, null);
+    }
+
     // Create responses based on the code and the user info
     // Since this an instance method, we still have access to this message's
     // information such as prefix, command, etc.
-    public List<String> generateResponse(ResponseCode rc, UserInfo user) {
+    public List<String> generateResponse(ResponseCode rc, UserInfo user,
+            List<String> other) {
         ArrayList<String> responses = new ArrayList<String>();
         switch(rc){
             case ERR_ALREADYREGISTERED:
@@ -148,8 +153,9 @@ public abstract class Message {
             case ERR_NONICKNAMEGIVEN:
                     responses.add(":No nickname given");
                     break;
-            case ERR_NICKNAMEINUSE: // TODO get <nick>
-                    responses.add("<nick> :Nickname is already in use");
+            case ERR_NICKNAMEINUSE:
+                    responses.add(other.get(0)
+                            + " :Nickname is already in use");
                     break;
             case ERR_NOTREGISTERED:
                     responses.add(":You have not registered");
