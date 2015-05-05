@@ -113,6 +113,9 @@ public abstract class Message {
             case "PART":
                 msg = new PartMessage(prfx, cmd, prms, trail);
                 break;
+            case "PRIVMSG":
+                msg = new PrivmsgMessage(prfx, cmd, prms, trail);
+                break;
             default:
                 msg = new TestMessage(prfx, cmd, prms, trail);
         }
@@ -160,8 +163,20 @@ public abstract class Message {
                     responses.add(other.get(0)
                             + " :Nickname is already in use");
                     break;
+            case ERR_NOSUCHNICK:
+                    responses.add(other.get(0)
+                            + ":No such nick");
+                    break;
+            case ERR_NOSUCHCHANNEL:
+                    responses.add(other.get(0)
+                            + ":No such channel");
+                    break;
             case ERR_NOTREGISTERED:
                     responses.add(":You have not registered");
+                    break;
+            case RPL_TRYAGAIN:
+                    responses.add(":We dropped the ball when"
+                            + other.get(0));
                     break;
             default: break;
         }
