@@ -29,7 +29,7 @@ public class PrivmsgMessage extends Message {
         }
 
         for(String target : this.parameters.get(0).split(",")){
-            List<String> errorParams = new ArrayList<String>();
+            List<String> errParams = new ArrayList<String>();
             // case: target is a channel
             if(target.startsWith("#")) {
                 try{
