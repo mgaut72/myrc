@@ -104,6 +104,12 @@ public abstract class Message {
             case "USER":
                 msg = new UserMessage(prfx, cmd, prms, trail);
                 break;
+            case "JOIN":
+                msg = new JoinMessage(prfx, cmd, prms, trail);
+                break;
+            case "PART":
+                msg = new PartMessage(prfx, cmd, prms, trail);
+                break;
             default:
                 msg = new TestMessage(prfx, cmd, prms, trail);
         }
@@ -134,13 +140,20 @@ public abstract class Message {
         ArrayList<String> responses = new ArrayList<String>();
         switch(rc){
             case ERR_ALREADYREGISTERED:
+                    responses.add(":Unauthorized command (already registered)");
+                    break;
             case ERR_NEEDMOREPARAMS:
+                    responses.add(this.command + " :Not enough parameters");
+                    break;
             case ERR_NONICKNAMEGIVEN:
                     responses.add(":No nickname given");
+                    break;
             case ERR_NICKNAMEINUSE: // TODO get <nick>
                     responses.add("<nick> :Nickname is already in use");
+                    break;
             case ERR_NOTREGISTERED:
                     responses.add(":You have not registered");
+                    break;
             default: break;
         }
         return responses;

@@ -34,7 +34,7 @@ public class ClientInteractionThread implements Runnable {
 
                 // Parse input to determine message type
                 // For now...
-                Message message = new TestMessage(null,null,null,null);
+                Message message = Message.generateMessage(clientInput);
                 List<String> responses = message.executeCommand(server, user);
 
                 for (String response : responses) {
