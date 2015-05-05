@@ -88,15 +88,21 @@ public abstract class Message {
         Parser<Tuple3<String,String,Pair<List<String>,String>>> message
             = Parsers.tuple(prefix, command, params);
 
-        Tuple3<String,String,Pair<List<String>,String>> parts
-            = message.parse(rawMessage);
+        Tuple3<String,String,Pair<List<String>,String>> parts = null;
+        Message msg;
+        try{
+            parts = message.parse(rawMessage);
+        }
+        catch(Exception e){
+            msg = new ImproperMessage(null, null, null, null);
+            return msg;
+        }
 
         String          prfx    = parts.a;
         String          cmd     = parts.b;
         List<String>    prms    = parts.c.a;
         String          trail   = parts.c.b;
 
-        Message msg;
         switch(cmd){
             case "NICK":
                 msg = new NickMessage(prfx, cmd, prms, trail);
@@ -114,7 +120,7 @@ public abstract class Message {
                 msg = new PartMessage(prfx, cmd, prms, trail);
                 break;
             default:
-                msg = new TestMessage(prfx, cmd, prms, trail);
+                msg = new ImproperMessage(null, null, null, null);
         }
 
         return msg;
