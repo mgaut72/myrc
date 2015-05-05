@@ -29,6 +29,7 @@ public class PrivmsgMessage extends Message {
         }
 
         for(String target : this.parameters.get(0).split(",")){
+            List<String> errorParams = new ArrayList<String>();
             // case: target is a channel
             if(target.startsWith("#")) {
                 try{
@@ -38,8 +39,9 @@ public class PrivmsgMessage extends Message {
                     }
                 }
                 catch(ChannelNotFoundException e){
+                    errParams.add(target);
                     responses.addAll(super.generateResponse(
-                                ResponseCode.ERR_NOSUCHCHANNEL, u));
+                                ResponseCode.ERR_NOSUCHCHANNEL, u, errParams));
                 }
                 catch(IOException e){
                     responses.addAll(super.generateResponse(
@@ -54,8 +56,9 @@ public class PrivmsgMessage extends Message {
                     targetUser.outStream.writeObject(msg);
                 }
                 catch(UserNotFoundException e){
+                    errParams.add(target);
                     responses.addAll(super.generateResponse(
-                                ResponseCode.ERR_NOSUCHNICK, u));
+                                ResponseCode.ERR_NOSUCHNICK, u, errParams));
                 }
                 catch(IOException e){
                     responses.addAll(super.generateResponse(
