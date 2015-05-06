@@ -108,6 +108,16 @@ and includes an abstract method called \texttt{executeCommand}.  We then create 
 abstract class for each of the supported commands, implementing the \texttt{executeCommand} in
 accordance with the behavior of the message as defined in the IRC protocol.
 
+\section{Compiling and Running}
+
+Currently the server and client are both packaged together.\\
+
+\texttt{make all} will compile both the server and client.\\
+
+\texttt{make runServer} will start the server.\\
+
+\texttt{make runClient} will start a client and connect to the server (the server must be running first).\\
+
 
 
 
