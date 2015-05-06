@@ -11,7 +11,7 @@ import com.zachmatt.irc.server.*;
 
 public class Client implements Runnable {
 
-    public static final String HOST_NAME = "localhost";
+    public static final String HOST_NAME = "distributed-irc.cloudapp.net";
 
     private Socket socket;
     private ObjectOutputStream outStream;
