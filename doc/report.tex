@@ -28,13 +28,11 @@
 
 \section{Overview}
 
-MYRC is a java-based distributed chat application which sought to implement
-a subset of the IRC protocol as faithfully as possible, with the exception that
-communication between the server and clients is done via sockets, rather
-than over TCP, as the protocol requires.
-
-The implementation includes both server and client programs, and facilitates
-client-server, and client-client(s) communication through the server.
+MYRC is a Java-based distributed chat application which seeks to implement
+a subset of the IRC protocol as faithfully as possible. The implementation
+includes both server and client programs, and facilitates client-server, and
+client-client(s) communication through the server. This communication is
+done using sockets.
 
 \section{System Architecture}
 
@@ -77,23 +75,29 @@ the client.
 
 On startup, the client will connect to the server via the server's new connection thread.
 Once a connection is established, the client will
-create two treads.  One thread will be waiting for user input (in the form of an IRC message)
-and sending it over its socket its corresponding \texttt{ClientInteractionThread} on the server.
+create two threads.  One thread will be waiting for user input (in the form of an IRC message)
+and sending it over its socket to its corresponding \texttt{ClientInteractionThread} on the server.
 The other thread will be responsible for receiving chats or other responses from the server, and printing
 them so the user may see them on \texttt{stdout}.
 
 \subsection{Message Handling}
 
-MYRC currently supports the following IRC commands:
+MYRC currently supports the following IRC commands. Since our implementation is
+limited, each command will contain a description of the precise way in which it
+is handled in our system.
 \begin{itemize}
-    \item PASS
-    \item USER
-    \item NICK
-    \item JOIN
-    \item PRIVMSG
-    \item TOPIC
-    \item PART
-\end{enumerate}
+    \item PASS: The first of two commands to register a user.
+    \item USER: The second of two commands to register a user. Sets the realname for
+    the client and the unique nickname for the client.
+    \item NICK: Sets the unique nickname for the client.
+    \item JOIN: If the target channel exists, the user joins the specified channel
+    and receives all updates from the channel.
+    \item PRIVMSG: Allows the user to send a message to another user or channel,
+    if the target exists.
+    \item TOPIC: Allows the user to set or get the topic of a channel if they
+    have already joined.
+    \item PART: Allows the user to leave a channel that they had already joined.
+\end{itemize}
 
 The message handling system is as follows.  The raw string of a message has an associated
 grammar.  We use this grammar to parse the message, which then contains a \texttt{command}
@@ -101,7 +105,7 @@ field, in addition to components called \texttt{parameters}, \texttt{prefix}, an
 The \texttt{command} field is used to determine which of the above message types it is.
 We have an abstract class called \texttt{Message}, which contains all the fields of the message,
 and includes an abstract method called \texttt{executeCommand}.  We then create extensions of the
-abstract class for each of the supported command, implementing the \texttt{executeCommand} in
+abstract class for each of the supported commands, implementing the \texttt{executeCommand} in
 accordance with the behavior of the message as defined in the IRC protocol.
 
 
