@@ -73,5 +73,38 @@ the client, parse that message, and perform the action associated with the messa
 Any responses that are generated while executing the message will be sent back to
 the client.
 
+\subsection{Client Architecture}
+
+On startup, the client will connect to the server via the server's new connection thread.
+Once a connection is established, the client will
+create two treads.  One thread will be waiting for user input (in the form of an IRC message)
+and sending it over its socket its corresponding \texttt{ClientInteractionThread} on the server.
+The other thread will be responsible for receiving chats or other responses from the server, and printing
+them so the user may see them on \texttt{stdout}.
+
+\subsection{Message Handling}
+
+MYRC currently supports the following IRC commands:
+\begin{itemize}
+    \item PASS
+    \item USER
+    \item NICK
+    \item JOIN
+    \item PRIVMSG
+    \item TOPIC
+    \item PART
+\end{enumerate}
+
+The message handling system is as follows.  The raw string of a message has an associated
+grammar.  We use this grammar to parse the message, which then contains a \texttt{command}
+field, in addition to components called \texttt{parameters}, \texttt{prefix}, and \texttt{trailing}.
+The \texttt{command} field is used to determine which of the above message types it is.
+We have an abstract class called \texttt{Message}, which contains all the fields of the message,
+and includes an abstract method called \texttt{executeCommand}.  We then create extensions of the
+abstract class for each of the supported command, implementing the \texttt{executeCommand} in
+accordance with the behavior of the message as defined in the IRC protocol.
+
+
+
 
 \end{document}
