@@ -20,7 +20,7 @@ compile:
 	javac $(C_FLAGS) $(SOURCE_PATH)/com/zachmatt/irc/client/*.java
 
 runServer:
-	java $(RUN_FLAGS) com.zachmatt.irc.server.Server
+	nohup java -server $(RUN_FLAGS) com.zachmatt.irc.server.Server
 
 runClient:
 	java $(RUN_FLAGS) com.zachmatt.irc.client.Client
