@@ -86,17 +86,42 @@ MYRC currently supports the following IRC commands. Since our implementation is
 limited, each command will contain a description of the precise way in which it
 is handled in our system.
 \begin{itemize}
-    \item PASS: The first of two commands to register a user.
-    \item USER: The second of two commands to register a user. Sets the realname for
-    the client and the unique nickname for the client.
-    \item NICK: Sets the unique nickname for the client.
-    \item JOIN: If the target channel exists, the user joins the specified channel
-    and receives all updates from the channel.
-    \item PRIVMSG: Allows the user to send a message to another user or channel,
-    if the target exists.
-    \item TOPIC: Allows the user to set or get the topic of a channel if they
-    have already joined.
-    \item PART: Allows the user to leave a channel that they had already joined.
+    \item PASS\\
+    Description: The first of two commands to register a user.\\
+    Syntax: PASS \textless password\textgreater
+
+    \item NICK\\
+    Description: Sets the unique nickname for the client.\\
+    Syntax: NICK \textless nickname\textgreater
+
+    \item USER\\
+    Description: The second of two commands to register a user. Sets the realname for
+    the client and the unique nickname for the client. The hostname and servername
+    arguments are ignored for now.\\
+    Syntax: USER \textless nickname\textgreater \ \textless hostname\textgreater
+                \ \textless servername\textgreater \ ":"\textless realname\textgreater
+
+    \item JOIN\\
+    Description: If the target channel exists, the user joins the specified channel
+    and receives all updates from the channel. If JOIN is followed by "0", the client
+    is removed from all of the channel they have joined.\\
+    Syntax: JOIN (\ \textless channel\textgreater *( ","\textless channel\textgreater ) ) / "0"
+
+    \item PRIVMSG\\
+    Description: Allows the user to send a message to another user or channel,
+    if the msgtarget exists.\\
+    Syntax: PRIVMSG \textless msgtarget\textgreater \ ":"\textless text to be sent\textgreater
+
+    \item TOPIC\\
+    Description: Allows the user to get the topic of a channel if topic is not set.
+    Allows the user to set the topic of a channel if the topic is set.\\
+    Syntax: TOPIC \textless channel\textgreater \ [ \textless topic\textgreater \ ]
+
+    \item PART\\
+    Description: Allows the user to leave the channel(s) that they had already joined.
+    The user may display a custom message upon leaving.\\
+    Syntax: PART \textless channel\textgreater *( ","\textless channel\textgreater )
+            [\ ":"\textless Part Message\textgreater \ ]
 \end{itemize}
 
 The message handling system is as follows.  The raw string of a message has an associated
@@ -109,16 +134,39 @@ abstract class for each of the supported commands, implementing the \texttt{exec
 accordance with the behavior of the message as defined in the IRC protocol.
 
 \section{Compiling and Running}
-
-Currently the server and client are both packaged together.\\
+\subsection{Creating the Executables}
+Currently the server and client are both packaged together. The following targets
+are recognized by the Makefile\\
 
 \texttt{make all} will compile both the server and client.\\
 
 \texttt{make runServer} will start the server.\\
 
-\texttt{make runClient} will start a client and connect to the server (the server must be running first).\\
+\texttt{make runClient} will start a client and connect to the server (the server must be running first).
 
+\subsection{Running the Client}
+When running the client program, the client must first register their
+connection. The steps to register a connection is as follows:
 
+\begin{enumerate}
+    \item PASS command
+    \item NICK command (optional)
+    \item USER command
+\end{enumerate}
 
+Once the client's connection is registered, they are allowed to submit any of
+the other implemented commands, with the exception of PASS and USER because
+they may be only used during connection setup. Additionally, it should be noted
+that the default channels that our IRC server establishes are \texttt{\#Sports},
+\texttt{\#Politics}, and \texttt{\#HackerNews}
+
+\subsection{Example Message Sequence}
+\begin{enumerate}
+    \item \texttt{PASS secretpassword}
+    \item \texttt{USER zacharymontoya examplehost exampleserver :Zachary Montoya}
+    \item \texttt{JOIN \#HackerNews}
+    \item \texttt{TOPIC \#HackerNews :A place to stay up to date on current technologies}
+    \item \texttt{PRIVMSG \#HackerNews :Is anyone there?}
+\end{enumerate}
 
 \end{document}
